@@ -9,11 +9,6 @@ dotenv.config();
 const userAuth = Router();
 //const user = new Map();
 
-userAuth.get('/',(req,res)=>{
-    console.log("HI");
-    res.send("Hello Everyone");
-});
-
 userAuth.post('/signUp',async(req,res)=>{
     try{
         const {Name,Email,UserRole,Password} = req.body;
