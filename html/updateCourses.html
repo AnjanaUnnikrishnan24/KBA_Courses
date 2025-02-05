@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Course</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-50">
+    <!-- Navigation bar -->
+    <div class="bg-slate-400" >
+        <img class="size-10" src="/kbaCourses/IMAGES/Logo1.png" alt="kba logo">
+            <div class="flex justify-end space-x-4">
+                <a class="text-slate-800 text-2xl font-xl" href="index.html">Home</a>
+                <a class="text-slate-800 text-2xl font-xl" href="courses.html">Courses</a>
+                <a class="text-slate-800 text-2xl font-xl" href="addCourse.html">Add Course</a>
+                <a class="text-slate-800 text-2xl font-xl" href="updateCourses.html">Update Courses</a>
+                <a class="text-slate-800 text-2xl font-xl" href="contacts.html">Contact Us</a>
+                <a class="text-slate-800 text-2xl font-xl" href="login.html">Login</a>
+            </div>
+    </div>
+    <!-- content -->
+
+    <div class="mt-10 mb-20 mr-auto ml-auto w-[800px] h-[800px] rounded-md bg-slate-400 pl-10 pr-12">
+        <h2 class="text-center text-3xl text-slate-800 mt-10 pt-10 font-bold">Update Course</h2>
+    <form>
+        <label class="pl-4"  for="CourseName">Course Name</label><br>
+        <input class="mt-3 ml-3 w-[100%] h-12 border-1 rounded-md border-gray-300 placeholder:italic placeholder:text-slate-400 pl-4"  type="text" placeholder="Enter the course name" required><br><br>
+        <label class="pl-4"  for="Coursetype">Course Type</label><br>
+        <select class="mt-3 ml-3 w-[100%] h-12 border-1 rounded-md border-gray-300 placeholder:italic placeholder:text-slate-400 pl-4" name="coursetype" required>
+            <option value="course1" selected>Hybrid</option>
+            <option value="course2" >instructor-led</option>
+            <option value="course3" >Course 3</option>
+            <option value="course4" >Course 4</option>
+        </select><br><br>
+        <label class="pl-4"  for="Description">Description</label><br>
+        <textarea  class="mt-3 ml-3 w-[100%] h-[100px] border-1 rounded-md border-gray-300 placeholder:italic placeholder:text-slate-400 p-4" rows="10" cols="20" placeholder="Enter the details"></textarea><br><br>
+        <label class="pl-4"  for="Price">Price</label><br>
+        <select class="mt-3 ml-3 w-[100%] h-12 border-1 rounded-md border-gray-300 placeholder:italic placeholder:text-slate-400 pl-4" name="price" required>
+            <option value="p1" selected>15000</option>
+            <option value="p2" >10000</option>
+            <option value="p3" >7500</option>
+            <option value="p4" >5000</option>
+        </select><br><br>
+        <Button class="ml-3 bg-slate-600 w-[100%] h-[40px] rounded-md" >Update Course</Button>
+        </form>
+    </div>  
+</body>
+</html>
