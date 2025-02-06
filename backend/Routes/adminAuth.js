@@ -2,11 +2,11 @@ import {Router} from "express";
 import authenticate from "../Middleware/auth.js";
 import adminCheck from "../Middleware/adminCheck.js"
 import { sample } from "../Models/sample.js";
+import upload from "../Middleware/upload.js";
 
 const adminAuth = Router();
-//const course = new Map();
 
-adminAuth.post('/addCourse', authenticate,adminCheck, async (req, res) => {
+adminAuth.post('/addCourse', authenticate,adminCheck,upload.single('courseImage'), async (req, res) => {
     try {
         const { CourseName, CourseId, CourseType, Description, Price } = req.body;
         console.log(CourseName);
@@ -14,12 +14,14 @@ adminAuth.post('/addCourse', authenticate,adminCheck, async (req, res) => {
         if(existingCourse){
             res.status(401).send("Course Already exist");
         }else{
+            const imagePath= req.file ? req.file.path:"";
             const newCourse = new sample({
                 cname :CourseName,
                 cId:CourseId,
                 ctype:CourseType,
                 cdescription:Description,
-                cprice:Price
+                cprice:Price,
+                Image:imagePath
             });
             await newCourse.save();
             res.status(201).send("Course added successfully")

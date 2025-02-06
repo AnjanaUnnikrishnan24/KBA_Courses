@@ -6,7 +6,8 @@ const coursedb = new Schema({
     cId:{type:String,required:true},
     ctype:{type:String,required:true},
     cdescription:{type:String,required:true},
-    cprice:{type:Number,required:true}
+    cprice:{type:Number,required:true},
+    Image:{type:String}
 });
 const sample = model('addcourse',coursedb)
 export {sample}
