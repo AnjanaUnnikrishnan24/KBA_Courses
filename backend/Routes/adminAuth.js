@@ -1,7 +1,7 @@
 import {Router} from "express";
 import authenticate from "../Middleware/auth.js";
-import adminCheck from "../Middleware/adminCheck.js";
-import { course} from "../Models/kbaDetails.js"
+import adminCheck from "../Middleware/adminCheck.js"
+import { sample } from "../Models/sample.js";
 
 const adminAuth = Router();
 //const course = new Map();
@@ -10,11 +10,11 @@ adminAuth.post('/addCourse', authenticate,adminCheck, async (req, res) => {
     try {
         const { CourseName, CourseId, CourseType, Description, Price } = req.body;
         console.log(CourseName);
-        const existingCourse = await course.find({cname:CourseName})
+        const existingCourse = await sample.findOne({cname:CourseName})
         if(existingCourse){
             res.status(401).send("Course Already exist");
         }else{
-            const newCourse = new course.find({
+            const newCourse = new sample({
                 cname :CourseName,
                 cId:CourseId,
                 ctype:CourseType,
@@ -29,12 +29,12 @@ adminAuth.post('/addCourse', authenticate,adminCheck, async (req, res) => {
     }
 });
 
-adminAuth.get('/getCourse', (req, res) => {
+adminAuth.get('/getCourse', async (req, res) => {
     try {
         const name = req.query.CourseName;
         console.log(name);
 
-        const result = course.get(name);
+        const result = await sample.findOne({cname:name});
     
         if (result) {
             res.status(200).json({ data:result });
@@ -45,6 +45,7 @@ adminAuth.get('/getCourse', (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
+
 
 adminAuth.put('/updateCourse', authenticate,adminCheck, (req, res) => {
     try {

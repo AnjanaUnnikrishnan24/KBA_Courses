@@ -8,14 +8,5 @@ const signup = new Schema({
     password:{type:String,required:true}
 });
 
-const coursedb = new Schema({
-    cname : {type:String,required:true,unique:true},
-    cId:{type:String,required:true},
-    ctype:{type:String,required:true},
-    cdescription:{type:String,required:true},
-    cprice:{type:Number,required:true}
-});
-
-const user = model ('userdetails',signup);
-const course = model('CourseDetails',coursedb)
-export {user , course};
+const kbaDetails = model ('userdetails',signup);
+export {kbaDetails}

@@ -2,7 +2,7 @@ import { Router } from "express";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { user } from "../Models/kbaDetails.js";
+import { kbaDetails } from "../Models/kbaDetails.js";
 
 dotenv.config();
 
@@ -16,12 +16,12 @@ userAuth.post('/signUp',async(req,res)=>{
         const newPassword =await bcrypt.hash(Password,10);
         console.log(newPassword);
             //user.set(Email,{Name,UserRole,Password:newPassword});
-            const existinguser = await user.findOne({email:Email})
+            const existinguser = await kbaDetails.findOne({email:Email})
             if(existinguser){
                 res.status(401).send("User already exit");
             }
             else{
-                const newuser = new user({
+                const newuser = new kbaDetails({
                     name:Name,
                     email:Email,
                     userRole:UserRole,
@@ -38,7 +38,7 @@ userAuth.post('/signUp',async(req,res)=>{
 userAuth.post('/login',async(req,res)=>{
     try{
         const {Email,Password}=req.body;
-        const result = await user.findOne({email:Email});
+        const result = await kbaDetails.findOne({email:Email});
         if(!result){
             res.status(400).send("Enter a valid user email");
         }
@@ -47,7 +47,7 @@ userAuth.post('/login',async(req,res)=>{
             const valid =await bcrypt.compare(Password,result.password);
             console.log(valid);
             if(valid){
-                const token = jwt.sign({Email,UserRole:result.userRole},process.env.SECRET_KEY,{expiresIn:'4h'});
+                const token = jwt.sign({Email:Email,UserRole:result.userRole},process.env.SECRET_KEY,{expiresIn:'4h'});
                 console.log(token);
                 res.cookie('authToken',token,
                 {

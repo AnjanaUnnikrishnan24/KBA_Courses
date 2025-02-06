@@ -12,9 +12,10 @@ const authenticate=(req,res,next)=>{
         console.log(token);
 
         if(name=='authToken'){
+            
             const verified = jwt.verify(token,process.env.SECRET_KEY);
             console.log(verified);
-            req.user = verified.UserName;
+            req.user = verified.Email;
             req.role = verified.UserRole;
             next();
         }
