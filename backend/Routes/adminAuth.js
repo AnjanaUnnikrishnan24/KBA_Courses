@@ -47,21 +47,28 @@ adminAuth.get('/getCourse', async (req, res) => {
 });
 
 
-adminAuth.put('/updateCourse', authenticate,adminCheck, (req, res) => {
+adminAuth.put('/updateCourse', authenticate,adminCheck, async (req, res) => {
     try {
         const { CourseName, CourseId, CourseType, Description, Price } = req.body;
-            
-        if(course.get(CourseName)){
-            course.set(CourseName, {CourseId, CourseType, Description, Price} );
+        const result = await sample.findOne({cname:CourseName});
+        console.log(result);
+        
+        if(result){
+            result.cname = CourseName;
+            result.cId = CourseId;
+            result.ctype = CourseType;
+            result.cdescription = Description;
+            result.cprice = Price;
+
+            await result.save();
             res.status(201).send("Course updated successfully")
         }else{
             res.status(404).send("Course doesn't exist")
-        } 
-    } catch {
+        }  
+    }catch{
         res.status(500).send("Internal Server Error" );
     }
 });
-
 
 
 adminAuth.patch('/editCourse',authenticate,adminCheck,(req,res)=>{
