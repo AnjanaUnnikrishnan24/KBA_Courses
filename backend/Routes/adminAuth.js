@@ -71,15 +71,18 @@ adminAuth.put('/updateCourse', authenticate,adminCheck, async (req, res) => {
 });
 
 
-adminAuth.patch('/editCourse',authenticate,adminCheck,(req,res)=>{
+adminAuth.patch('/editCourse',authenticate,adminCheck,async(req,res)=>{
     try{
         const {CourseName,CourseType,Price}= req.body;
-        console.log(CourseType);
-        const result = course.get(CourseName);
+        console.log(CourseName);
+        const result = await sample.findOne({cname:CourseName});
         console.log(result);
 
         if(result){
-            course.set(CourseName,{CourseId:result.CourseId,CourseType,Description:result.Description,Price});
+            result.ctype = CourseType;
+            result.cprice = Price;
+
+            await result.save();
             res.status(200).send("Course successfully updated");
         }
         else{
@@ -91,12 +94,13 @@ adminAuth.patch('/editCourse',authenticate,adminCheck,(req,res)=>{
 
 })
 
-adminAuth.delete('/deleteCourse',authenticate,adminCheck,(req,res)=>{
+adminAuth.delete('/deleteCourse',authenticate,adminCheck, async (req,res)=>{
     try{
         const {CourseName} = req.body;
-        console.log(CourseName);
-        if(course.get(CourseName)){
-            course.delete(CourseName);
+        const result = await sample.findOne({cname:CourseName});
+        console.log(result);
+        if(result){
+            await sample.findOneAndDelete({cname:CourseName});
             res.status(200).json({msg:"Course deleted successfully"});
         }else{
             res.status(404).json({msg:"Course not found"});
