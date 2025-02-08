@@ -67,7 +67,7 @@ userAuth.post('/login',async(req,res)=>{
 
 userAuth.get('/logout',(req,res)=>{
     res.clearCookie('authToken');
-    console.log("Userlogged out successfully");
+    console.log("User logged out successfully");
     res.status(200).json({msg:"Successfully logged out"});
 
 })

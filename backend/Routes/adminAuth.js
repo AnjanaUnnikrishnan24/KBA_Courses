@@ -2,11 +2,15 @@ import {Router} from "express";
 import authenticate from "../Middleware/auth.js";
 import adminCheck from "../Middleware/adminCheck.js"
 import { sample } from "../Models/sample.js";
-import upload from "../Middleware/upload.js";
+import uploads from "../Middleware/upload1.js";
 
 const adminAuth = Router();
 
-adminAuth.post('/addCourse', authenticate,adminCheck,upload.single('courseImage'), async (req, res) => {
+const convertToBase64 = (buffer) =>{
+    return buffer.toString("base64");
+}
+
+adminAuth.post('/addCourse', authenticate,adminCheck,uploads.single('courseImage'), async (req, res) => {
     try {
         const { CourseName, CourseId, CourseType, Description, Price } = req.body;
         console.log(CourseName);
@@ -14,14 +18,19 @@ adminAuth.post('/addCourse', authenticate,adminCheck,upload.single('courseImage'
         if(existingCourse){
             res.status(401).send("Course Already exist");
         }else{
-            const imagePath= req.file ? req.file.path:"";
+            let imageBase64 = null;
+            if(req.file && req.file.buffer ){
+                imageBase64 = convertToBase64(req.file.buffer);
+            }
+            //const imagePath= req.file ? req.file.path:"";
             const newCourse = new sample({
                 cname :CourseName,
                 cId:CourseId,
                 ctype:CourseType,
                 cdescription:Description,
                 cprice:Price,
-                Image:imagePath
+                //Image:imagePath
+                Image:imageBase64
             });
             await newCourse.save();
             res.status(201).send("Course added successfully")
@@ -33,16 +42,56 @@ adminAuth.post('/addCourse', authenticate,adminCheck,upload.single('courseImage'
 
 adminAuth.get('/getCourse', async (req, res) => {
     try {
-        const name = req.query.CourseName;
-        console.log(name);
+        // const name = req.query.CourseName;
+        // console.log(name);
 
-        const result = await sample.findOne({cname:name});
-    
-        if (result) {
-            res.status(200).json({ data:result });
-        } else {
-            res.status(404).json({ message: "Course not found" });
+        // const result = await sample.findOne({cname:name});
+        // console.log(result);
+
+        // if (result) {   
+        //     const imageBuffer = Buffer.from(result.Image, "base64")
+        //     res.status(200).json({ 
+        //         message:"Course found",
+        //         data: {
+        //         CourseName: result.cname,
+        //         CourseId: result.cId,
+        //         CourseType: result.ctype,
+        //         Description: result.cdescription,
+        //         Price: result.cprice,
+        //         Image: imageBase64 // Send base64 image separately
+        //     } });
+        // } else {
+        //     res.status(404).json({ message: "Course not found" });
+        // }
+        const name = req.query.CourseName;
+
+        if (!name) {
+            return res.status(400).json({ message: "CourseName query parameter is required" });
         }
+
+        console.log("Searching for Course:", name);
+        const result = await sample.findOne({ cname: name });
+
+        if (!result) {
+            return res.status(404).json({ message: "Course not found" });
+        }
+
+        let imageBase64 = null;
+        if (result.Image) {
+            imageBase64 = result.Image;  
+        }
+
+        res.status(200).json({
+            message: "Course found",
+            data: {
+                CourseName: result.cname,
+                CourseId: result.cId,
+                CourseType: result.ctype,
+                Description: result.cdescription,
+                Price: result.cprice,
+                Image: imageBase64 
+            }
+        });
     } catch {
         res.status(500).json({ message: "Internal Server Error" });
     }
