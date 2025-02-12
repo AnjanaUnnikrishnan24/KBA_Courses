@@ -7,29 +7,28 @@ import { kbaDetails } from "../Models/kbaDetails.js";
 dotenv.config();
 
 const userAuth = Router();
-//const user = new Map();
 
 userAuth.post('/signUp',async(req,res)=>{
     try{
         const {Name,Email,UserRole,Password} = req.body;
         console.log(Name);
+
         const newPassword =await bcrypt.hash(Password,10);
         console.log(newPassword);
-            //user.set(Email,{Name,UserRole,Password:newPassword});
-            const existinguser = await kbaDetails.findOne({email:Email})
-            if(existinguser){
-                res.status(401).send("User already exit");
-            }
-            else{
-                const newuser = new kbaDetails({
-                    name:Name,
-                    email:Email,
-                    userRole:UserRole,
-                    password:newPassword
-                });
-                await newuser.save();
-                res.status(201).send("Signed-up successfully")
-            }}
+        const existinguser = await kbaDetails.findOne({email:Email})
+        if(existinguser){
+            res.status(401).send("User already exit");
+        }
+        else{
+            const newuser = new kbaDetails({
+                name:Name,
+                email:Email,
+                userRole:UserRole,
+                password:newPassword
+            });
+            await newuser.save();
+            res.status(201).send("Signed-up successfully")
+        }}
     catch{
         res.status(500).send("Internal Server error");
     }  
