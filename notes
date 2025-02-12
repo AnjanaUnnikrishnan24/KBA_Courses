@@ -1,0 +1,92 @@
+import React from "react";
+
+const Navbar = () => {
+  return (
+    <nav className="bg-slate-400 dark:bg-slate-50 p-4 flex justify-between items-center">
+      <img className="size-10" src="/kbaCourses/IMAGES/Logo1.png" alt="KBA Logo" />
+      <div className="flex space-x-4">
+        {[
+          { name: "Home", link: "index.html" },
+          { name: "Courses", link: "courses.html" },
+          { name: "Add Course", link: "addCourse.html" },
+          { name: "Update Courses", link: "updateCourses.html" },
+          { name: "Contact Us", link: "contacts.html" },
+          { name: "Login", link: "login.html" },
+        ].map((item) => (
+          <a key={item.name} className="text-slate-800 text-2xl font-xl" href={item.link}>
+            {item.name}
+          </a>
+        ))}
+      </div>
+    </nav>
+  );
+};
+
+const HeroSection = () => {
+  return (
+    <div className="text-center border-0 rounded-sm bg-slate-300 p-10 m-2 text-amber-900">
+      <h1 className="text-3xl font-bold">Learn Blockchain Technology From Dedicated Facility for Blockchain Education</h1>
+      <p className="text-xl">Since 2017</p>
+    </div>
+  );
+};
+
+const CourseCard = ({ title, imgSrc, description }) => {
+  return (
+    <div className="border-0 rounded-lg bg-slate-400 flex flex-col items-center justify-center mt-5 mx-3 p-5">
+      <h2 className="text-center text-xl text-fuchsia-800 mt-5 font-bold">{title}</h2>
+      <img className="w-60 h-60 my-4" src={imgSrc} alt={title} />
+      <p className="mx-4 my-4">{description}</p>
+      <button className="text-fuchsia-800 text-xl bg-violet-400 rounded px-4 py-2">Learn More..</button>
+    </div>
+  );
+};
+
+const courses = [
+  { 
+    title: "Certified Blockchain Associate", 
+    imgSrc: "/kbaCourses/IMAGES/course.png", 
+    description: "This course provides a comprehensive introduction to blockchain technology, including its structure, mechanisms, and applications."
+  },
+  { 
+    title: "Certified Hyperledger Fabric", 
+    imgSrc: "/kbaCourses/IMAGES/images (1).jpeg", 
+    description: "Learn the fundamentals of Hyperledger Fabric and how to build enterprise blockchain solutions with this hands-on course."
+  },
+  { 
+    title: "Certified Ethereum Developer", 
+    imgSrc: "/Certiapp/images/online-course.png", 
+    description: "Master Ethereum development, including smart contracts, decentralized applications (DApps), and Solidity programming."
+  },
+  { 
+    title: "Certified Blockchain Architect", 
+    imgSrc: "/kbaCourses/IMAGES/course.png", 
+    description: "Gain expertise in designing blockchain architectures and implementing distributed ledger solutions for various industries."
+  }
+];
+
+const CourseGrid = () => {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-5">
+      {courses.map((course) => (
+        <CourseCard key={course.title} title={course.title} imgSrc={course.imgSrc} description={course.description} />
+      ))}
+    </div>
+  );
+};
+
+const App = () => {
+  return (
+    <div className="bg-blue-50 min-h-screen">
+      <Navbar />
+      <HeroSection />
+      <div className="text-center border-0 rounded-sm bg-slate-300 p-8 m-2 text-amber-900">
+        <h2 className="text-2xl font-bold">BROWSE OUR TOP COURSES</h2>
+        <p className="text-xl">Choose the course that's right for your career goals</p>
+      </div>
+      <CourseGrid />
+    </div>
+  );
+};
+
+export default App;
