@@ -21,8 +21,7 @@ app.use(json());
 app.use('/',userauth);
 app.use('/',adminauth);
 
-//app.use('/admin',adminSign);
-
+ 
 app.get('/',function(req,res){
     //console.log("hi")
     res.send("Hello Everyone ");
@@ -33,7 +32,7 @@ app.post('/',function(req,res){
     res.send("Hello Everyone");
 })
 
-mongoose.connect('mongodb://localhost:27017/KBA_DB').then(()=>{
+mongoose.connect('mongodb://mongodb:27017/KBA_DB').then(()=>{
     console.log("Mongodb connected Successfully to KBA Course");})
     .catch((error)=>{
         console.error("Mongodb connection failed",error);

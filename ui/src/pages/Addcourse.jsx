@@ -1,4 +1,3 @@
-// ui/src/pages/AddCoursePage.jsx
 import React, { useState } from "react";
 
 const AddCoursePage = () => {
@@ -7,7 +6,7 @@ const AddCoursePage = () => {
   const [courseType, setCourseType] = useState("Self-Paced");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [courseImage, setCourseImage] = useState(null); // NEW: for the image file
+  const [courseImage, setCourseImage] = useState(null);  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,7 +36,6 @@ const AddCoursePage = () => {
       }
 
       alert("Course added successfully!");
-      // Optionally reset form fields
       setCourseName("");
       setCourseId("");
       setCourseType("Self-Paced");

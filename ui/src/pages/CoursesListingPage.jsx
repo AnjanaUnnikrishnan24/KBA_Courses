@@ -5,7 +5,6 @@ const CoursesListingPage = () => {
     const [courses, setCourses] = useState([]);
     const navigate = useNavigate();
 
-    // Fetch courses from the backend
     useEffect(() => {
         fetchCourses();
     }, []);
@@ -33,7 +32,6 @@ const CoursesListingPage = () => {
                 body: JSON.stringify({ courseName }),
             });
             if (response.ok) {
-                // Remove the deleted course from the state
                 setCourses(courses.filter(course => course.courseName !== courseName));
             } else {
                 console.error('Failed to delete course');

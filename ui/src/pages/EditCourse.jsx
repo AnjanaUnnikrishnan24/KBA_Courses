@@ -6,7 +6,6 @@ const EditCourse = () => {
   const { courseName } = useParams();
   const navigate = useNavigate();
 
-  // Local states
   const [courseId, setCourseId] = useState("");
   const [courseType, setCourseType] = useState("Self-Paced");
   const [description, setDescription] = useState("");
@@ -14,7 +13,6 @@ const EditCourse = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch course data once
   useEffect(() => {
     const fetchCourse = async () => {
       try {
@@ -26,7 +24,6 @@ const EditCourse = () => {
         if (!data || !data.courseName) {
           throw new Error("Course not found");
         }
-        // Populate states
         setCourseId(data.courseId);
         setCourseType(data.courseType || "Self-Paced");
         setDescription(data.description || "");
@@ -41,7 +38,6 @@ const EditCourse = () => {
     fetchCourse();
   }, [courseName]);
 
-  // Update course
   const submitForm = async (e) => {
     e.preventDefault();
     try {

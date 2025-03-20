@@ -2,13 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Logo1 from "../assets/images/Logo1.png";
 import Logout from "./Logout";
-import useProfile from "../hooks/useProfile"; // Custom hook to fetch user profile
+import useProfile from "../hooks/useProfile";  
 
 const Navbar = () => {
   const { profile, loading } = useProfile();
 
-  // Show loading state while fetching profile
-  if (loading) {
+   if (loading) {
     return (
       <div className="bg-purple-100 text-purple-950 p-3 shadow-md">
         <p>Loading user...</p>
@@ -16,10 +15,10 @@ const Navbar = () => {
     );
   }
 
-  const userRole = profile?.userRole;
+   const userRole = profile?.userRole;
 
   return (
-    <div className="navbar fixed top-0 left-0 w-full z-50 bg-purple-100 text-purple-950 grid grid-cols-1 md:grid-cols-2 p-3 shadow-md">
+    <div className="bg-purple-100 text-purple-950 grid grid-cols-1 md:grid-cols-2 p-3 shadow-md">
       {/* Logo Section */}
       <div className="flex items-center">
         <Link to="/">
@@ -39,11 +38,9 @@ const Navbar = () => {
           Contact Us
         </Link>
 
-        {/* Show Login or Logout based on authentication status */}
-        {profile ? (
+         {profile ? (
           <>
-            {/* Show Admin Links if user is admin */}
-            {userRole === "admin" && (
+             {userRole === "admin" && (
               <>
                 <Link to="/add-course" className="hover:text-purple-700">
                   Add Course
@@ -57,8 +54,7 @@ const Navbar = () => {
             <Logout />
           </>
         ) : (
-          // Show Login Button if user is not logged in
-          <Link to="/auth" className="hover:text-purple-700">
+           <Link to="/auth" className="hover:text-purple-700">
             Login
           </Link>
         )}

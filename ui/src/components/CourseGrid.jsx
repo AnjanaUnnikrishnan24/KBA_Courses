@@ -6,7 +6,6 @@ const CourseGrid = ({ isHome = true }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Slice the courses array if it's the home page
   const courseList = isHome ? courses.slice(0, 5) : courses;
 
   useEffect(() => {

@@ -3,13 +3,12 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const CourseDetailsPage = () => {
-  const { courseName } = useParams(); // Get courseName from the URL
-  const [course, setCourse] = useState(null); // State to store course details
-  const [loading, setLoading] = useState(true); // State to handle loading
-  const [error, setError] = useState(""); // State to handle errors
+  const { courseName } = useParams();  
+  const [course, setCourse] = useState(null);  
+  const [loading, setLoading] = useState(true);  
+  const [error, setError] = useState("");  
 
-  // Fetch course details
-  useEffect(() => {
+   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
         const res = await fetch(`/api/getCourse?courseName=${encodeURIComponent(courseName)}`);
@@ -20,31 +19,28 @@ const CourseDetailsPage = () => {
         if (!data || !data.courseName) {
           throw new Error("Course not found");
         }
-        setCourse(data); // Set course details in state
+        setCourse(data); 
       } catch (err) {
         console.error(err);
-        setError(err.message); // Set error message
-        toast.error(err.message); // Show error toast
+        setError(err.message);  
+        toast.error(err.message);  
       } finally {
-        setLoading(false); // Stop loading
+        setLoading(false);  
       }
     };
 
     fetchCourseDetails();
   }, [courseName]);
 
-  // Loading state
-  if (loading) {
+   if (loading) {
     return <div className="p-4 text-center">Loading course details...</div>;
   }
 
-  // Error state
-  if (error) {
+   if (error) {
     return <div className="p-4 text-red-500 text-center">{error}</div>;
   }
 
-  // Course details
-  return (
+   return (
     <div className="bg-white min-h-screen p-8">
       <div className="max-w-4xl mx-auto bg-purple-100 rounded-lg shadow-lg p-6">
         {/* Course Image */}

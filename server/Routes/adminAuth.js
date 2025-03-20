@@ -10,7 +10,6 @@ const convertToBase64 = (buffer) => {
   return buffer.toString("base64");
 };
 
-// Add a new course
 adminauth.post( "/addCourse", authenticate, adminCheck, upload.single("courseImage"), async (req, res) => {
     try {
 
@@ -44,7 +43,6 @@ adminauth.post( "/addCourse", authenticate, adminCheck, upload.single("courseIma
   }
 );
 
-// Get all courses
 adminauth.get("/getAllCourses", async (req, res) => {
   try {
     const courses = await Course.find({});
@@ -55,7 +53,6 @@ adminauth.get("/getAllCourses", async (req, res) => {
   }
 });
 
-// Get a specific course by name
 adminauth.get("/getCourse", async (req, res) => {
   try {
     const name = req.query.courseName;
@@ -82,33 +79,6 @@ adminauth.get("/getCourse", async (req, res) => {
   }
 });
 
-// // Get course image
-// adminauth.get("/getCourseImage", async (req, res) => {
-//   try {
-//     const name = req.query.courseName;
-//     if (!name) {
-//       return res.status(400).json({ msg: "Course name is required" });
-//     }
-
-//     const result = await Course.findOne({ courseName: name });
-//     if (!result || !result.image) {
-//       return res.status(404).json({ msg: "Image not found" });
-//     }
-
-//     const imageBuffer = Buffer.from(result.image, "base64");
-//     const compressedImage = await sharp(imageBuffer)
-//       .resize({ width: 300 })
-//       .jpeg({ quality: 70 })
-//       .toBuffer();
-//     res.set("Content-Type", "image/jpeg");
-//     res.send(compressedImage);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ msg: "Internal Server Error" });
-//   }
-// });
-
-// Update a course
 adminauth.put( "/updateCourse", authenticate, adminCheck, upload.single("courseImage"), async (req, res) => {
     try {
       const { CourseName, CourseId, CourseType, Description, Price } = req.body;
@@ -133,7 +103,6 @@ adminauth.put( "/updateCourse", authenticate, adminCheck, upload.single("courseI
 
        await result.save();
 
-      // Send success response
       res.status(200).json({ msg: "Course successfully updated", data: result });
     } catch (err) {
       console.error("Error updating course:", err);
